@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Transsnet Test Suite" parallel="false" verbose="5">
+    <parameter name="propertiesPath" value="src/test/resources/config/config.properties"/>
+    <!-- jenkins 传参示例，可做成数据驱动 -->
+<!--    <parameter name="param1" value="${param1}"/>-->
+<!--    <parameter name="param2" value="${param2}"/>-->
+
+    <!-- 测试套件 -->
+<!--    <suite-files></suite-files>-->
+
+    <!-- 监听器 -->
+    <test verbose="2" preserve-order="true" name="D:/code/Java/auto-more"><classes/>
+    </test>
+</suite>
