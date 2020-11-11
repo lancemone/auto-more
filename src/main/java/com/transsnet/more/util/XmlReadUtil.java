@@ -1,5 +1,6 @@
 package com.transsnet.more.util;
 
+import com.transsnet.more.beans.Locator;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
-import com.transsnet.more.util.Locator.*;
+import com.transsnet.more.beans.Locator.*;
 
 /**
  * @Class: XmlReadUtil

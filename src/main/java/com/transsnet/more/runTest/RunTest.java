@@ -1,16 +1,23 @@
 package com.transsnet.more.runTest;
 
 
-import com.beust.jcommander.internal.Lists;
-import com.transsnet.more.interfaces.ToolsPath;
-import com.transsnet.more.interfaces.impl.ToolsPathImpl;
+import com.transsnet.more.appium.Driver;
+import com.transsnet.more.beans.ApkInfo;
+import com.transsnet.more.beans.DeviceInfo;
+import com.transsnet.more.util.AppUtil;
 import com.transsnet.more.util.DevicesUtil;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 import lombok.extern.slf4j.Slf4j;
-import org.testng.TestNG;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Class: RunTest
@@ -29,7 +36,8 @@ public class RunTest {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String s = "";
 
-            while((s= br.readLine())!=null && !s.contains("udid")){
+            while(true){
+                if ((s = br.readLine()) == null || s.contains("udid")) break;
             }
             br.close();
 
@@ -56,6 +64,41 @@ public class RunTest {
 //        suites.add(xmlFile);
 //        testNG.setTestSuites(suites);
 //        testNG.run();
-        System.out.println("" + DevicesUtil.getConnectedDevices());
+
+        AppiumDriver driver;
+        ApkInfo apkInfo = AppUtil.getInstance().getApkInfo();
+        DeviceInfo deviceInfo = DevicesUtil.getConnectedDevices().get(0);
+        log.info(apkInfo.toString());
+//        try {
+//            Driver.driver = Driver.prepareFotAppium(deviceInfo, apkInfo, "4723");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Driver.startActivity(apkInfo);
+        // 启动 Appiumm
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.PLATFORM, "Android");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceInfo.getDevice_name());
+        capabilities.setCapability(MobileCapabilityType.UDID, deviceInfo.getDevice_sn());
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceInfo.getDevice_osVersion());
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
+        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 1800);
+
+        // 配置测试apk
+        capabilities.setCapability(MobileCapabilityType.APP, apkInfo.getApkPath());
+        capabilities.setCapability("appPackage", apkInfo.getApkPn());
+        capabilities.setCapability("appActivity", apkInfo.getApkMainActivity());
+        capabilities.setCapability("sessionOverride", true);
+        capabilities.setCapability("unicodeKeyboard",true); //支持中文输入
+        capabilities.setCapability("resetKeyboard",true); //重置输入法为系统默认
+
+        String url = "http://127.0.1:" + "4723" + "/wd/hub";
+        log.info("appium连接地址: " + url);
+        try {
+            driver = new AppiumDriver(new URL(url), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

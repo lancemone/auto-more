@@ -16,6 +16,6 @@
         Value:元素定位信息，如果是id,name,class，linktext直接把网页元素对应的这些属性值写上即可，如果是xpath定位方式，
         需要填写正确的xpath语法格式。
         Desc:元素的描述，元素的中文描述信息-->
-        <locator type="" timeout="" value="" desc="">For You</locator>
+        <locator type="id" timeout="" value="id_value" desc="分享">For You</locator>
     </page>
 </map>

@@ -27,7 +27,7 @@ public class DeviceInfo {
     private String device_name;
 
     // 设备系统版本
-    private String device_os;
+    private String device_osVersion;
 
     // 设备AndroidSDK版本
     private String device_sdkVersion;

@@ -17,10 +17,9 @@
         <!-- 各依赖版本信息 -->
         <lombok-version>1.18.12</lombok-version>
         <appium-version>7.3.0</appium-version>
-        <selenuim-version>3.4.0</selenuim-version>
+        <selenuim-version>3.141.59</selenuim-version>
         <testng-version>6.8</testng-version>
         <dom4j-version>1.6.1</dom4j-version>
-        <xml-apis-version>1.0.b2</xml-apis-version>
         <log4j-version>2.13.3</log4j-version>
         <slf4j-version>1.7.30</slf4j-version>
         <allure2.version>2.13.6</allure2.version>
@@ -60,12 +59,6 @@
         </dependency>
 
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>${xml-apis-version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok-version}</version>
@@ -76,6 +69,7 @@
             <artifactId>log4j-api</artifactId>
             <version>${log4j-version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -89,9 +83,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.13.3</version>
         </dependency>
 
         <!-- allure 2 -->
@@ -125,7 +119,16 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${assembly-plugin-version}</version>
                 <configuration>
-                    <descriptors>src/main/resources/assembly.xml</descriptors>
+                    <appendAssemblyId>true</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.transsnet.more.runTest.RunTest</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptors>
+                        <descriptor>src/main/resources/assembly-jar.xml</descriptor>
+                        <descriptor>src/main/resources/assembly-conf.xml</descriptor>
+                    </descriptors>
                 </configuration>
                 <executions>
                     <execution>
@@ -134,13 +137,13 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>com.transsnet.more.runTest.RunTest</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
+<!--                        <configuration>-->
+<!--                            <archive>-->
+<!--                                <manifest>-->
+<!--                                    <mainClass>com.transsnet.more.runTest.RunTest</mainClass>-->
+<!--                                </manifest>-->
+<!--                            </archive>-->
+<!--                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>

@@ -2,20 +2,32 @@
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
         <!-- 配置参数日志目录前缀 -->
-        <Property name="LOG_HOME">logs</Property>
+        <Property name="LOG_HOME">output/logs</Property>
         <!-- 配置日志输出格式 %t:线程名;%C:类名;%M:方法名;%m:错误信息;%n:换行 -->
-        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t-%L] %-5level %C.%M - %m%n</property>
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level [%t-%L] %c{1.}.%M(%L) - %m%n}</property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <!-- 控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) -->
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${PATTERN}"/>
+            <!-- 输出日志的格式 -->
+            <!--
+                %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间
+                %p : 日志输出格式
+                %c : logger的名称
+                %m : 日志内容，即 logger.info("message")
+                %n : 换行符
+                %C : Java类名
+                %L : 日志输出所在行数
+                %M : 日志输出所在方法名
+                hostName : 本地机器名
+                hostAddress : 本地ip地址 -->
         </Console>
         <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，
         则这size大小的日志会自动存入按年份-月份建立的文件夹下面，作为存档。清空demo.log,将最新的log输出到demo.log中，以此循环 -->
-        <RollingFile name="RollingFile" fileName="${LOG_HOME}/demo.log"
-                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-demo-%i.log">
+        <RollingFile name="RollingFile" fileName="${LOG_HOME}/info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-info-%i.log">
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${PATTERN}" charset="UTF-8"/>
             <Policies>
