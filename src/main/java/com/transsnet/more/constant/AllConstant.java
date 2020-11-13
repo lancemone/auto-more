@@ -17,4 +17,10 @@ public class AllConstant {
 
     public static String appDir = Paths.get(rootDir, "app").toString();
 
+    public static String appiumIp = "127.0.0.1";
+
+    public static Integer appiumPort = 4723;
+
+    public static String appiumLogLever = "error";
+
 }

@@ -114,39 +114,32 @@
                 </configuration>
             </plugin>
             <!-- 打包插件 surefire -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly-plugin-version}</version>
-                <configuration>
-                    <appendAssemblyId>true</appendAssemblyId>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.transsnet.more.runTest.RunTest</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptors>
-                        <descriptor>src/main/resources/assembly-jar.xml</descriptor>
-                        <descriptor>src/main/resources/assembly-conf.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-<!--                        <configuration>-->
-<!--                            <archive>-->
-<!--                                <manifest>-->
-<!--                                    <mainClass>com.transsnet.more.runTest.RunTest</mainClass>-->
-<!--                                </manifest>-->
-<!--                            </archive>-->
-<!--                        </configuration>-->
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>${assembly-plugin-version}</version>-->
+<!--                <configuration>-->
+<!--                    <appendAssemblyId>true</appendAssemblyId>-->
+<!--                    <archive>-->
+<!--                        <manifest>-->
+<!--                            <mainClass>qa.transsnet.more.runTest.RunTest</mainClass>-->
+<!--                        </manifest>-->
+<!--                    </archive>-->
+<!--                    <descriptors>-->
+<!--                        <descriptor>src/main/resources/assembly-jar.xml</descriptor>-->
+<!--                        <descriptor>src/main/resources/assembly-conf.xml</descriptor>-->
+<!--                    </descriptors>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <!-- 测试插件 surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

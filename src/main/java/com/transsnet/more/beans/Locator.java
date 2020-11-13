@@ -14,6 +14,7 @@ public class Locator {
     private int timout;
     private String locatorName;
     private ByType type;
+    private String text;
 
     public enum ByType {
         xpath, id, linkText, name, className, cssSelector, partialLinkText, tagName
@@ -25,6 +26,7 @@ public class Locator {
         this.value = element;
         this.timout = Config.waitTime;
         this.type = ByType.xpath;
+
     }
     public Locator(String element, int waitSec) {
         this.timout = waitSec;
@@ -36,10 +38,19 @@ public class Locator {
         this.value = element;
         this.type = byType;
     }
-    public Locator(String element, int waitSec, ByType byType,String locatorName) {
+
+    public Locator(String element, int waitSec, ByType byType, String text) {
         this.timout = waitSec;
         this.value = element;
         this.type = byType;
+        this.text = text;
+    }
+
+    public Locator(String element, int waitSec, ByType byType,String text, String locatorName) {
+        this.timout = waitSec;
+        this.value = element;
+        this.type = byType;
+        this.text = text;
         this.locatorName=locatorName;
     }
     public String getElement() {
@@ -82,4 +93,8 @@ public class Locator {
     public void setLocatorName(String locatorName) {
         this.locatorName = locatorName;
     }
+
+    public void setText(String text) {this.text = text;}
+
+    public String getText() {return text;}
 }

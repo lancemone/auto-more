@@ -22,7 +22,7 @@ public class AppUtil {
 
     private static AppUtil appUtil;
     private static final String PACKAGE = "package";
-    private static final String APPLICATION_LABEL = "application-label";
+    private static final String APPLICATION_LABEL = "application-label:";
     public static final String VERSION_NAME = "versionName";
     public static final String LAUNCHABLE_ACTIVITY = "launchable";
     private static final String SPLIT_REGEX = "(: )|(=')|(' )|'";
@@ -78,14 +78,16 @@ public class AppUtil {
     }
 
     private void setApkInfo(ApkInfo apkInfo, String source) {
-        log.debug(source);
         if (source.startsWith(PACKAGE)) {
+            log.debug(source);
             String[] pack = source.split(SPLIT_REGEX);
             apkInfo.setApkPn(pack[2]);
             apkInfo.setApkVersion(String.format("%s-%s", pack[6], pack[4]));
         }else if (source.startsWith(APPLICATION_LABEL)){
+            log.debug(source);
             apkInfo.setApkName(source.split(":")[1]);
         }else if (source.startsWith(LAUNCHABLE_ACTIVITY)){
+            log.debug(source);
             String[] la = source.split(SPLIT_REGEX);
             apkInfo.setApkMainActivity(la[2]);
         }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="5" name="Failed suite [Transsnet Test Suite]">
+  <test name="auto-more(failed)">
+    <classes>
+      <class name="com.transsnet.more.cases.news.SplashTest">
+        <methods>
+          <include name="tearDownTest"/>
+          <include name="tearDownSuite"/>
+          <include name="setupSuite"/>
+          <include name="setUpTest"/>
+          <include name="setUpClass"/>
+          <include name="tearDownMethod"/>
+          <include name="setUpMethod"/>
+          <include name="testTitle"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.transsnet.more.cases.news.SplashTest -->
+    </classes>
+  </test> <!-- auto-more(failed) -->
+</suite> <!-- Failed suite [Transsnet Test Suite] -->

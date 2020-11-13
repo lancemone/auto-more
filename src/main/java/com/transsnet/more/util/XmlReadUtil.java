@@ -25,14 +25,20 @@ import com.transsnet.more.beans.Locator.*;
 @Slf4j
 public class XmlReadUtil {
 
-    public HashMap<String, Locator> readXMLDocument(String path, String pageName) {
+    public HashMap<String, Locator> readUILibraryXML(String pageName) {
         log.debug("开始解析UILibrary.xml元素对象库");
         log.debug("开始读取pageName内容");
         HashMap<String, Locator> locatorHashMap = new HashMap<>();
         try {
-            File file = new File(path);
+            String uiLibraryPath = new Object() {
+                public String getPath() {
+                    return Objects.requireNonNull(this.getClass().getClassLoader().getResource("UILibrary.xml")).getPath();
+                }
+            }.getPath();
+            log.debug("uiLibraryPath: " + uiLibraryPath);
+            File file = new File(uiLibraryPath);
             if (!file.exists()) {
-                throw new IOException("Not Find " + path);
+                throw new IOException("Not Find " + uiLibraryPath);
             }
             SAXReader reader = new SAXReader();
             Document document = reader.read(file);
@@ -40,11 +46,12 @@ public class XmlReadUtil {
             for (Iterator<?> el = element.elementIterator(); el.hasNext();) {
                 Element page = (Element) el.next();
                 if (page.attribute(0).getValue().equalsIgnoreCase(pageName)) {
-                    log.debug("获取pageName");
                     for (Iterator<?> pn = page.elementIterator(); pn.hasNext();) {
+                        log.debug("获取pageName" + pn);
                         String type = null;
                         String timeOut = "5";
                         String value = null;
+                        String text = null;
                         String locatorName;
                         Element locator = (Element) pn.next();
                         //获取元素名
@@ -56,15 +63,24 @@ public class XmlReadUtil {
                                 case "type":
                                     type = attribute.getValue();
                                     log.debug("读取定位方式:" + type);
+                                    break;
                                 case "timeout":
-                                    timeOut = attribute.getValue();
+                                    if (!attribute.getValue().equals("")) {
+                                        timeOut = attribute.getValue();
+                                    }
                                     log.debug("读取元素等待时间 ：" + timeOut);
+                                    break;
                                 case "value":
                                     value = attribute.getValue();
                                     log.debug("读取定位内容：" + value);
+                                    break;
+                                case "text":
+                                    text = attribute.getValue();
+                                    log.debug("读取元素的文本: " + text);
+                                    break;
                             }
                         }
-                        Locator temp = new Locator(Objects.requireNonNull(value).trim(), Integer.parseInt(timeOut), getByType(type), locatorName.trim());
+                        Locator temp = new Locator(Objects.requireNonNull(value).trim(), Integer.parseInt(timeOut), getByType(type), text, locatorName.trim());
                         log.debug(locatorName + "内容读取完成");
                         locatorHashMap.put(locatorName, temp);
                     }

@@ -1,23 +1,23 @@
 package com.transsnet.more.runTest;
 
 
+import com.beust.jcommander.internal.Lists;
+import com.transsnet.more.appium.AppiumServerManager;
 import com.transsnet.more.appium.Driver;
 import com.transsnet.more.beans.ApkInfo;
 import com.transsnet.more.beans.DeviceInfo;
+import com.transsnet.more.cases.news.SplashTest;
 import com.transsnet.more.util.AppUtil;
 import com.transsnet.more.util.DevicesUtil;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.TestNG;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @Class: RunTest
@@ -28,6 +28,9 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class RunTest {
+
+    public static Driver driver;
+    public static AppiumServerManager appiumServerManager;
 
     public static String getUdid(String fileName){
         String udid = null;
@@ -55,50 +58,19 @@ public class RunTest {
 
     // 使用TestNG执行用例
     public static void main(String[] args) {
-//        TestNG testNG = new TestNG();
-//        String xmlFile = args[0];
-//        log.info("Test suite file " + xmlFile);
-//        String udid = getUdid(xmlFile);
-//        log.info("Device udid " + udid);
-//        List<String> suites = Lists.newArrayList();
-//        suites.add(xmlFile);
-//        testNG.setTestSuites(suites);
-//        testNG.run();
-
-        AppiumDriver driver;
-        ApkInfo apkInfo = AppUtil.getInstance().getApkInfo();
-        DeviceInfo deviceInfo = DevicesUtil.getConnectedDevices().get(0);
-        log.info(apkInfo.toString());
-//        try {
-//            Driver.driver = Driver.prepareFotAppium(deviceInfo, apkInfo, "4723");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Driver.startActivity(apkInfo);
-        // 启动 Appiumm
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM, "Android");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceInfo.getDevice_name());
-        capabilities.setCapability(MobileCapabilityType.UDID, deviceInfo.getDevice_sn());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceInfo.getDevice_osVersion());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 1800);
-
-        // 配置测试apk
-        capabilities.setCapability(MobileCapabilityType.APP, apkInfo.getApkPath());
-        capabilities.setCapability("appPackage", apkInfo.getApkPn());
-        capabilities.setCapability("appActivity", apkInfo.getApkMainActivity());
-        capabilities.setCapability("sessionOverride", true);
-        capabilities.setCapability("unicodeKeyboard",true); //支持中文输入
-        capabilities.setCapability("resetKeyboard",true); //重置输入法为系统默认
-
-        String url = "http://127.0.1:" + "4723" + "/wd/hub";
-        log.info("appium连接地址: " + url);
+        TestNG testNG = new TestNG();
+        String xmlFile = null;
         try {
-            driver = new AppiumDriver(new URL(url), capabilities);
-        } catch (MalformedURLException e) {
+            File directory = new File("");//设定为当前文件夹
+            xmlFile = Paths.get(directory.getCanonicalPath(), "testng.xml").toString();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
+        log.info("Test suite file " + xmlFile);
+        List<String> suites = Lists.newArrayList();
+        suites.add(xmlFile);
+        testNG.setTestSuites(suites);
+//        testNG.setTestClasses(new Class[]{SplashTest.class});
+        testNG.run();
     }
 }
